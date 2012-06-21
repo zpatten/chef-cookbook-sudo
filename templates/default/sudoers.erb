@@ -5,13 +5,17 @@
 #
 
 root                ALL=(ALL) ALL
+<% if @users.count > 0 -%>
 
 <% @users.each do |user, passwordless| -%>
 <%= "%-20s ALL=(ALL) %sALL" % [user, (passwordless ? "NOPASSWD:" : "")] %>
 <% end -%>
+<% end -%>
+<% if @groups.count > 0 -%>
 
 <% @groups.each do |group, passwordless| -%>
 <%= "%-20s ALL=(ALL) %sALL" % ["%#{group}", (passwordless ? "NOPASSWD:" : "")] %>
+<% end -%>
 <% end -%>
 
 <%= '#includedir /etc/sudoers.d' if @include_sudoers_d  %>
