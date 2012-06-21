@@ -1,0 +1,17 @@
+#
+# WARNING: Automatically generated file; DO NOT EDIT!
+# Chef-Sudo Cookbook / SUDO Config
+# Generated for '<%= node[:fqdn] %>'
+#
+
+root                ALL=(ALL) ALL
+
+<% @users.each do |user, passwordless| -%>
+<%= "%-20s ALL=(ALL) %sALL" % [user, (passwordless ? "NOPASSWD:" : "")] %>
+<% end -%>
+
+<% @groups.each do |group, passwordless| -%>
+<%= "%-20s ALL=(ALL) %sALL" % ["%#{group}", (passwordless ? "NOPASSWD:" : "")] %>
+<% end -%>
+
+<%= '#includedir /etc/sudoers.d' if @include_sudoers_d  %>
