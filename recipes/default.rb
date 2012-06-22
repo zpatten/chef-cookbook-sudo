@@ -30,7 +30,7 @@ if node['authorization']['sudo']['include_sudoers_d']
 
 end
 
-current_users = (node['jovelabs']['users']['current'] rescue Array.new)
+current_users = (node['z']['users']['uids'].keys rescue Array.new)
 users = node['authorization']['sudo']['users']
 
 Chef::Log.debug("current_users:#{current_users.inspect}")
