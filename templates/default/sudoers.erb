@@ -7,15 +7,15 @@
 Defaults        env_reset
 
 root                ALL=(ALL) ALL
-<% if @users.count > 0 -%>
+<% if @sudo_users.count > 0 -%>
 
-<% @users.each do |user, passwordless| -%>
+<% @sudo_users.each do |user, passwordless| -%>
 <%= "%-20s ALL=(ALL) %sALL" % [user, (passwordless ? "NOPASSWD:" : "")] %>
 <% end -%>
 <% end -%>
-<% if @groups.count > 0 -%>
+<% if @sudo_groups.count > 0 -%>
 
-<% @groups.each do |group, passwordless| -%>
+<% @sudo_groups.each do |group, passwordless| -%>
 <%= "%-20s ALL=(ALL) %sALL" % ["%#{group}", (passwordless ? "NOPASSWD:" : "")] %>
 <% end -%>
 <% end -%>

@@ -11,7 +11,7 @@ package "sudo" do
   action (platform?("freebsd") ? :install : :upgrade)
 end
 
-if node['authorization']['sudo']['include_sudoers_d']
+if node.authorization.sudo.include_sudoers_d
 
   directory "/etc/sudoers.d" do
     mode 0750
@@ -30,8 +30,13 @@ if node['authorization']['sudo']['include_sudoers_d']
 
 end
 
-current_users = (node['z']['users']['uids'].keys rescue Array.new)
-users = node['authorization']['sudo']['users']
+
+current_users = (node.z.users.uids.keys rescue Array.new)
+users = node.authorization.sudo.users
+groups = node.authorization.sudo.groups.to_hash
+
+Chef::Log.debug("sudo_users: #{users.inspect}")
+Chef::Log.debug("sudo_groups: #{groups.inspect}")
 
 Chef::Log.debug("current_users:#{current_users.inspect}")
 
@@ -47,8 +52,8 @@ template "/etc/sudoers" do
   owner "root"
   group (platform?("freebsd") ? "wheel" : "root")
   variables(
-    :groups => node['authorization']['sudo']['groups'],
-    :users => node['authorization']['sudo']['users'],
-    :include_sudoers_d => node['authorization']['sudo']['include_sudoers_d']
+    :sudo_groups => groups,
+    :sudo_users => users,
+    :include_sudoers_d => node.authorization.sudo.include_sudoers_d
   )
 end
