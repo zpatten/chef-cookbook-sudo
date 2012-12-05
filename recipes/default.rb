@@ -33,7 +33,7 @@ end
 
 current_users = (node.z.users.uids.keys rescue Array.new)
 users = node.authorization.sudo.users
-groups = node.authorization.sudo.groups.to_hash
+groups = (node.authorization.sudo.groups rescue node.authorization.sudo.groups.to_hash)
 
 Chef::Log.debug("sudo_users: #{users.inspect}")
 Chef::Log.debug("sudo_groups: #{groups.inspect}")
