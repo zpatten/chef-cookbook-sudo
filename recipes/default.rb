@@ -31,20 +31,11 @@ if node.authorization.sudo.include_sudoers_d
 end
 
 
-current_users = (node.z.users.uids.keys rescue Array.new)
-users = node.authorization.sudo.users
+users = node.authorization.sudo.users.to_hash
 groups = node.authorization.sudo.groups.to_hash
 
-Chef::Log.debug("sudo_users: #{users.inspect}")
-Chef::Log.debug("sudo_groups: #{groups.inspect}")
-
-Chef::Log.debug("current_users:#{current_users.inspect}")
-
-Chef::Log.debug("users.count:#{users.count}")
-users.each do |user, passwordless|
-  ( !current_users.include?(user) ? users.delete(user) : nil )
-end
-Chef::Log.debug("users.count:#{users.count}")
+Chef::Log.info("SUDO Users: #{users.inspect}")
+Chef::Log.info("SUDO Groups: #{groups.inspect}")
 
 template "/etc/sudoers" do
   source "sudoers.erb"
