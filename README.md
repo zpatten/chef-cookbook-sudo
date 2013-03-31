@@ -1,6 +1,8 @@
 Description
 ===========
 
+Installs/Configures sudo
+
 Requirements
 ============
 
